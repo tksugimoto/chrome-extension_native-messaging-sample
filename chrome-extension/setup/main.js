@@ -11,14 +11,23 @@ import common from '../common.js';
 }
 
 {
+	const dirPath = document.getElementById('dirPath');
 	const downloadLink = document.getElementById('reg-download-link');
-	const dirPath = String.raw`C:\path\to`;
-	const content = common.generateRegFile(dirPath);
-	const blob = new Blob([content], {
-		type: 'text/plain',
-	});
-	downloadLink.href = URL.createObjectURL(blob);
 	downloadLink.download = 'manifest.reg';
+	const update = () => {
+		const content = common.generateRegFile(dirPath.value || dirPath.placeholder);
+		const blob = new Blob([content], {
+			type: 'text/plain',
+		});
+		downloadLink.href = URL.createObjectURL(blob);
 
-	document.getElementById('reg-content').innerText = content;
+		document.getElementById('reg-content').innerText = content;
+	};
+
+	dirPath.addEventListener('change', update);
+	dirPath.addEventListener('keyup', update);
+	dirPath.addEventListener('paste', () => {
+		setTimeout(update, 10);
+	});
+	update();
 }

@@ -9,6 +9,10 @@
 			max-width: 1500px;
 			margin: 0 auto;
 		}
+		input {
+			width: 100%;
+			padding: 5px;
+		}
 		pre {
 			background-color: #f6f8fa;
 			padding: 16px;
@@ -22,9 +26,14 @@
 	<ol>
 		<li>manifest json を <a id="manifest-json-download-link">ダウンロード</a></li>
 		<li>
+			manifest json の配置フォルダpathを以下に入力<br>
+			<input id="dirPath" placeholder="C:\path\to">
+		</li>
+		<li>
 			レジストリ登録ファイル
 			<pre><code id="reg-content"></code></pre>
-			を <a id="reg-download-link">ダウンロード</a></li>
+			を <a id="reg-download-link">ダウンロード</a>
+		</li>
 	</ol>
 	<script type="module" src="./main.js"></script>
 </body>
