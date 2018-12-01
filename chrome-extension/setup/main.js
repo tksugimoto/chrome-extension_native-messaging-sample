@@ -15,8 +15,11 @@ import common from '../common.js';
 	const downloadLink = document.getElementById('reg-download-link');
 	downloadLink.download = 'manifest.reg';
 	const update = () => {
+		const bom8 = '\uFEFF';
 		const content = common.generateRegFile(dirPath.value || dirPath.placeholder);
-		const blob = new Blob([content], {
+
+		const uint8Array = new TextEncoder('utf-8').encode(bom8 + content);
+		const blob = new Blob([uint8Array], {
 			type: 'text/plain',
 		});
 		downloadLink.href = URL.createObjectURL(blob);
