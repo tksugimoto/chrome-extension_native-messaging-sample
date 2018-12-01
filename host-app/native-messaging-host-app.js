@@ -19,3 +19,8 @@ process.stdin.pipe(fs.createWriteStream(logPath, {
 process.stdin.on('data', data => {
     if (data.toString().trim() === 'quit') process.exit();
 });
+
+
+process.stdin.once('data', data => {
+    process.stdout.write(data);
+});
