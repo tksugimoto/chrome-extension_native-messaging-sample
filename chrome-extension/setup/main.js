@@ -34,3 +34,21 @@ import common from '../common.js';
 	});
 	update();
 }
+
+{
+	const testButton = document.getElementById('test');
+	testButton.addEventListener('click', () => {
+		const message = {
+			value: 'test message',
+		};
+		chrome.runtime.sendNativeMessage(common.applicationName, message, response => {
+			const value = {
+				response,
+			};
+			const replacer = null;
+			const space = '\t';
+			console.log(value);
+			document.getElementById('test-output').innerText = JSON.stringify(value, replacer, space);
+		});
+	});
+}
