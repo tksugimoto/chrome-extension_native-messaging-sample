@@ -16,10 +16,11 @@ const generateManifestJson = (path) => {
 };
 
 const generateRegFile = (dirPath) => {
+	const filePath = `${dirPath.replace(/[\\/]$/, '')}/manifest.json`;
 	const value = `
 Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER/Software/Google/Chrome/NativeMessagingHosts/${applicationName}]
-@="${dirPath.replace(/[\\/]$/, '')}/manifest.json"
+@="${filePath.replace(/[\\/]/g, '//')}"
 	`.trim().replace(/[/]/g, '\\');
 	return value;
 };
