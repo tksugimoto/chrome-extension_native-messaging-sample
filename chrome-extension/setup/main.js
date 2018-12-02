@@ -18,8 +18,7 @@ import common from '../common.js';
 		const bom8 = '\uFEFF';
 		const content = common.generateRegFile(dirPath.value || dirPath.placeholder);
 
-		const uint8Array = new TextEncoder('utf-8').encode(bom8 + content);
-		const blob = new Blob([uint8Array], {
+		const blob = new Blob([bom8 + content], {
 			type: 'text/plain',
 		});
 		downloadLink.href = URL.createObjectURL(blob);
