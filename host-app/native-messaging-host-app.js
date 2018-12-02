@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const util = require('util');
+const execFile = require('child_process').execFile;
 
 const logPath = './out.log';
 
@@ -27,6 +28,9 @@ process.stdin.once('data', _data => {
     }
     const input = JSON.parse(bodyBuffer.toString());
     log(`[input]\n${JSON.stringify(input, null, '\t')}`);
+    if (input.filePath) {
+        openByExplorer(input.filePath);
+    }
     send({
         res: 'hi!',
         time: new Date(),
@@ -54,4 +58,19 @@ const log = str => {
     fs.writeFileSync(logPath, `${str}\n`, {
         flag: 'a',
     });
+};
+
+/** Explorerで開く
+ * - path が ディレクトリ(末尾が\\) の場合: ディレクトリを開く
+ * - path が ファイル の場合: 選択した状態で開く
+ * @param {string} path
+ */
+const openByExplorer = path => {
+    if (path.endsWith('\\')) {
+        log(`openByExplorer [dir]: ${path}`);
+        execFile('explorer', [`${path.slice(0, -1)}`]);
+    } else {
+        log(`openByExplorer [file]: ${path}`);
+        execFile('explorer', ['/select,', path]);
+    }
 };

@@ -51,3 +51,26 @@ import common from '../common.js';
 		});
 	});
 }
+
+{
+	const filePathToOpen = document.getElementById('filePathToOpen');
+	const openButton = document.getElementById('open');
+	const execOpen = () => {
+		let filePath = String(filePathToOpen.value || filePathToOpen.placeholder);
+		if (filePath.startsWith('"') && filePath.endsWith('"')) {
+			filePath = filePath.slice(1, -1);
+		}
+		const message = {
+			filePath,
+		};
+		chrome.runtime.sendNativeMessage(common.applicationName, message, response => {
+			console.log({response});
+		});
+	};
+	openButton.addEventListener('click', execOpen);
+	filePathToOpen.addEventListener('keydown', evt => {
+		if (evt.key === 'Enter') {
+			execOpen();
+		}
+	});
+}
