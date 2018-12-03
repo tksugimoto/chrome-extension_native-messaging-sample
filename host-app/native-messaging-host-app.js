@@ -67,11 +67,18 @@ const log = str => {
  * @param {string} path
  */
 const openByExplorer = path => {
-    if (path.endsWith('\\')) {
-        log(`openByExplorer [dir]: ${path}`);
-        execFile('explorer', [`${path.slice(0, -1)}`]);
-    } else {
-        log(`openByExplorer [file]: ${path}`);
-        execFile('explorer', ['/select,', path]);
-    }
+    fs.stat(path, (err, stats) => {
+        log('fs.stat: ' + JSON.stringify({err, stats}, null, '\t'));
+        if (err) {
+            // file or directory が無い
+            return;
+        }
+        if (stats.isDirectory()) {
+            log(`openByExplorer [dir]: ${path}`);
+            execFile('explorer', [`${path.replace(/\\$/, '')}`]);
+        } else {
+            log(`openByExplorer [file]: ${path}`);
+            execFile('explorer', ['/select,', path]);
+        }
+    });
 };
