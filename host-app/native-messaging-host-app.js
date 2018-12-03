@@ -3,8 +3,9 @@
 const fs = require('fs');
 const util = require('util');
 const execFile = require('child_process').execFile;
+const pathJoin = require('path').join;
 
-const logPath = './out.log';
+const logPath = pathJoin(__dirname, 'out.log');
 
 const logText = `${new Date().toLocaleString()}
 ${process.argv.map((v, i) => `${i}: ${v}`).join('\n')}
