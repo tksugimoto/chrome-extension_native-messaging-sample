@@ -67,6 +67,7 @@ const log = str => {
  * @param {string} path
  */
 const openByExplorer = path => {
+    path = path.replace(/\\+$/, '');
     fs.stat(path, (err, stats) => {
         log('fs.stat: ' + JSON.stringify({err, stats}, null, '\t'));
         if (err) {
@@ -75,7 +76,7 @@ const openByExplorer = path => {
         }
         if (stats.isDirectory()) {
             log(`openByExplorer [dir]: ${path}`);
-            execFile('explorer', [`${path.replace(/\\$/, '')}`]);
+            execFile('explorer', [path]);
         } else {
             log(`openByExplorer [file]: ${path}`);
             execFile('explorer', ['/select,', path]);
