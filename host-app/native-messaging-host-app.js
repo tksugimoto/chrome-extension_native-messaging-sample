@@ -31,6 +31,7 @@ process.stdin.once('data', _data => {
     log(`[input]\n${JSON.stringify(input, null, '\t')}`);
     if (input.filePath) {
         openByExplorer(input.filePath);
+        return;
     }
     send({
         res: 'hi!',
@@ -72,14 +73,24 @@ const openByExplorer = path => {
         log('fs.stat: ' + JSON.stringify({err, stats}, null, '\t'));
         if (err) {
             // file or directory が無い
+            send({
+                message: `"${path}" にファイル/フォルダが存在しない`,
+                err,
+            });
             return;
         }
         if (stats.isDirectory()) {
             log(`openByExplorer [dir]: ${path}`);
             execFile('explorer', [path]);
+            send({
+                message: `フォルダ "${path}" を開きました`,
+            });
         } else {
             log(`openByExplorer [file]: ${path}`);
             execFile('explorer', ['/select,', path]);
+            send({
+                message: `ファイル "${path}" を開きました`,
+            });
         }
     });
 };
