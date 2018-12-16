@@ -3,7 +3,9 @@ import common from '../common.js';
 {
 	const downloadLink = document.getElementById('manifest-json-download-link');
 	const nativeMessagingHostBinaryPath = 'native-messaging-host-app.bat';
-	const blob = new Blob([common.generateManifestJson(nativeMessagingHostBinaryPath)], {
+	const manifestJsonContent = common.generateManifestJson(nativeMessagingHostBinaryPath);
+	document.getElementById('manifest-json-content').innerText = manifestJsonContent;
+	const blob = new Blob([manifestJsonContent], {
 		type: 'text/plain',
 	});
 	downloadLink.href = URL.createObjectURL(blob);
