@@ -4,17 +4,9 @@
 	"manifest_version": 2,
 	"options_page": "setup/index.html",
 	"permissions": [
-	  "nativeMessaging"
+		"contextMenus",
+		"nativeMessaging"
 	],
-	"content_scripts": [{
-		"all_frames": true,
-		"matches": [
-			"*://*/*"
-		],
-		"js": [
-			"content_script.js"
-		]
-	}],
 	"minimum_chrome_version": "46.0",
 	"background": {
 		"page": "background.html",
