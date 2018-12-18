@@ -45,5 +45,11 @@ chrome.contextMenus.onClicked.addListener((info) => {
 });
 
 const convertUrl2FilePath = encodedUrl => {
-	return decodeURI(encodedUrl).replace(/^file:\/\/\//, '').replace(/\//g, '\\');
+	const decodedURI = decodeURI(encodedUrl);
+	if (decodedURI.startsWith('file:///')) {
+		return decodedURI.replace(/^file:\/\/\//, '').replace(/\//g, '\\');
+	}
+	// UNC path ( "\\server_name\path\to\file" )
+	// file://server_name/path/to/file
+	return decodedURI.replace(/^file:/, '').replace(/\//g, '\\');
 };
