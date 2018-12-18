@@ -35,7 +35,7 @@ chrome.runtime.onStartup.addListener(createContextMenu);
 
 chrome.contextMenus.onClicked.addListener((info) => {
 	const localFileUrl = info.menuItemId === CONTEXT_MENU_ID.OPEN_LOCAL_FILE ? info.linkUrl : info.pageUrl;
-	const filePath = decodeURI(localFileUrl).replace(/^file:\/\/\//, '').replace(/\//g, '\\');
+	const filePath = convertUrl2FilePath(localFileUrl);
 	const messageToNative = {
 		filePath,
 	};
@@ -43,3 +43,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
 		console.info({response});
 	});
 });
+
+const convertUrl2FilePath = encodedUrl => {
+	return decodeURI(encodedUrl).replace(/^file:\/\/\//, '').replace(/\//g, '\\');
+};
