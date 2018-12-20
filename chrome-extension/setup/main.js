@@ -13,6 +13,17 @@ import common from '../common.js';
 }
 
 {
+	/**
+	 * 文字列をUTF-16用にUint16Arrayに変換する
+	 * @param {String} str
+	 * @returns {Uint16Array}
+	 */
+	const convertToUtf16 = str => {
+		const codePointArray = Array.from(str).map(c => c.codePointAt(0));
+		// TODO: サロゲートペア（codePointが0xFFFFを超える場合）対応
+		return new Uint16Array(codePointArray);
+	};
+
 	const dirPath = document.getElementById('dirPath');
 	const downloadLink = document.getElementById('reg-download-link');
 	downloadLink.download = 'manifest.reg';
@@ -20,7 +31,7 @@ import common from '../common.js';
 		const bom = '\uFEFF';
 		const content = common.generateRegFile(dirPath.value || dirPath.placeholder);
 
-		const blob = new Blob([bom + content], {
+		const blob = new Blob([convertToUtf16(bom + content).buffer], {
 			type: 'text/plain',
 		});
 		downloadLink.href = URL.createObjectURL(blob);
