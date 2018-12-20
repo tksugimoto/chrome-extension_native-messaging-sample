@@ -17,10 +17,10 @@ import common from '../common.js';
 	const downloadLink = document.getElementById('reg-download-link');
 	downloadLink.download = 'manifest.reg';
 	const update = () => {
-		const bom8 = '\uFEFF';
+		const bom = '\uFEFF';
 		const content = common.generateRegFile(dirPath.value || dirPath.placeholder);
 
-		const blob = new Blob([bom8 + content], {
+		const blob = new Blob([bom + content], {
 			type: 'text/plain',
 		});
 		downloadLink.href = URL.createObjectURL(blob);
