@@ -24,7 +24,9 @@ const createContextMenu = () => {
 		title: 'ローカルファイルをExplorerで開く',
 		contexts: ['link'],
 		targetUrlPatterns: [
-			'file:///*',
+			// file:///* 指定だとローカルファイルリンクにメニューが表示されないため <all_urls> 指定している
+			// ※ targetUrlPatterns 指定を無しにしてもOk
+			'<all_urls>',
 		],
 		id: CONTEXT_MENU_ID.OPEN_LOCAL_FILE,
 	});
@@ -35,6 +37,10 @@ chrome.runtime.onStartup.addListener(createContextMenu);
 
 chrome.contextMenus.onClicked.addListener((info) => {
 	const localFileUrl = info.menuItemId === CONTEXT_MENU_ID.OPEN_LOCAL_FILE ? info.linkUrl : info.pageUrl;
+	if (!localFileUrl.startsWith('file://')) {
+		// link 要素用の右クリックメニューの表示対象を <all_urls> にしているため fileスキーマ以外を無視する
+		return;
+	}
 	const filePath = convertUrl2FilePath(localFileUrl);
 	const messageToNative = {
 		filePath,
