@@ -29,14 +29,17 @@ import common from '../common.js';
 	downloadLink.download = 'manifest.reg';
 	const update = () => {
 		const bom = '\uFEFF';
-		const content = common.generateRegFile(dirPath.value || dirPath.placeholder);
+		const registryInfo = common.generateRegistryInfo(dirPath.value || dirPath.placeholder);
+		const regFileContent = registryInfo.regFileContent;
 
-		const blob = new Blob([convertToUtf16(bom + content).buffer], {
+		const blob = new Blob([convertToUtf16(bom + regFileContent).buffer], {
 			type: 'text/plain',
 		});
 		downloadLink.href = URL.createObjectURL(blob);
 
-		document.getElementById('reg-content').innerText = content;
+		document.getElementById('reg-content').innerText = regFileContent;
+		document.getElementById('reg-key').innerText = registryInfo.key;
+		document.getElementById('reg-value').innerText = registryInfo.value;
 	};
 
 	dirPath.addEventListener('change', update);

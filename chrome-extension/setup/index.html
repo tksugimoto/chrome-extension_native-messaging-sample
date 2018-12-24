@@ -21,6 +21,10 @@
 			cursor: pointer;
 			padding: 5px;
 		}
+		[data-description]::before {
+			content: attr(data-description) ": ";
+			color:dimgray;
+		}
 	</style>
 </head>
 <body>
@@ -37,11 +41,19 @@
 			<input id="dirPath" placeholder="C:\path\to">
 		</li>
 		<li>
-			レジストリ登録ファイル
-			<pre><code id="reg-content"></code></pre>
-			を <a id="reg-download-link">ダウンロード</a>
+			レジストリ登録
+			<ul>
+					<li>
+						レジストリエディターから手動で設定
+						<pre data-description="Key"><code id="reg-key"></code></pre>
+						<pre data-description="Value"><code id="reg-value"></code></pre>
+					</li>
+					<li>
+						レジストリ登録ファイルを <a id="reg-download-link">ダウンロード</a> して実行
+						<pre><code id="reg-content"></code></pre>
+					</li>
+			</ul>
 		</li>
-		<li>↑でダウンロードした reg ファイルを実行しレジストリに登録</li>
 		<li>
 			<button type="button" id="test">test</button>
 			<pre id="test-output"></pre>
