@@ -7,7 +7,6 @@
 		"contextMenus",
 		"nativeMessaging"
 	],
-	"minimum_chrome_version": "46.0",
 	"background": {
 		"page": "background.html",
 		"persistent": false
